@@ -3,6 +3,9 @@ package com.tobilko.processor.parser.implementation;
 import com.tobilko.callback.implementation.LiqPayCallback;
 import com.tobilko.processor.parser.PaymentSystemCallbackParser;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -37,7 +40,15 @@ public final class LiqPayCallbackParser implements PaymentSystemCallbackParser<L
         return Arrays.stream(pairs)
                 .map(pair -> pair.split("="))
                 .filter(values -> values.length == 2)
-                .collect(toMap(values -> values[0], values -> values[1]));
+                .collect(toMap(values -> decode(values[0]), values -> decode(values[1])));
+    }
+
+    private String decode(String value) {
+        try {
+            return URLDecoder.decode(value, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException("the needed charset isn't supported");
+        }
     }
 
     private LiqPayCallback fillOutFromMap(Map<String, String> map) {
