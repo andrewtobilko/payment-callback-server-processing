@@ -1,4 +1,4 @@
-package com.tobilko.formatter;
+package com.tobilko.processor.parser;
 
 import com.tobilko.callback.PaymentSystemCallback;
 
