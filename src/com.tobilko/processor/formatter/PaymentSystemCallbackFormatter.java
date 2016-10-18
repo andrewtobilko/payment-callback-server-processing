@@ -24,11 +24,11 @@ public abstract class PaymentSystemCallbackFormatter<T extends PaymentSystemCall
     private @Setter PaymentSystemCallbackPrinter<T> printer;
 
     public @Override T parse(String response) {
-        return null;
+        return parser.parse(response);
     }
 
     public @Override String print(T callback) {
-        return null;
+        return printer.print(callback);
     }
 
 }
