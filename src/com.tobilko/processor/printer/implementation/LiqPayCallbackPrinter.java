@@ -3,8 +3,15 @@ package com.tobilko.processor.printer.implementation;
 import com.tobilko.callback.implementation.LiqPayCallback;
 import com.tobilko.processor.printer.PaymentSystemCallbackPrinter;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.nio.charset.StandardCharsets.*;
+import static java.util.stream.Collectors.*;
 
 /**
  *
@@ -36,7 +43,18 @@ public final class LiqPayCallbackPrinter implements PaymentSystemCallbackPrinter
     }
 
     private String makeStringFromMap(Map<String, String> map) {
-        return null;
+        return map.entrySet()
+                  .stream()
+                  .map(e -> encode(e.getKey()) + "=" + encode(e.getValue()))
+                  .collect(joining("&"));
+    }
+
+    private String encode(String value) {
+        try {
+            return URLEncoder.encode(value, UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException("the needed charset isn't supported");
+        }
     }
 
 }

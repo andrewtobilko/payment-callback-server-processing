@@ -12,6 +12,7 @@ import java.util.Map;
 import static java.lang.Double.NaN;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.*;
+import static java.nio.charset.StandardCharsets.*;
 import static java.util.stream.Collectors.toMap;
 
 /**
@@ -45,7 +46,7 @@ public final class LiqPayCallbackParser implements PaymentSystemCallbackParser<L
 
     private String decode(String value) {
         try {
-            return URLDecoder.decode(value, StandardCharsets.UTF_8.name());
+            return URLDecoder.decode(value, UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException("the needed charset isn't supported");
         }
